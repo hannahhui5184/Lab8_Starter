@@ -26,30 +26,30 @@ async function init() {
 
 /**
  * Fetches all of the products from itemsURL top and stores them
- * inside the global items variable. 
+ * inside the global items variable.
  * @returns {Promise} Resolves if the items are found it localStorage or if they
  *                    are fetched correctly
  */
 async function fetchItems() {
   return new Promise((resolve, reject) => {
-    const products = localStorage.getItem('products')
+    const products = localStorage.getItem('products');
     if (products) {
       items = JSON.parse(products);
       resolve();
     } else {
       fetch(itemsURL)
         // Grab the response first, catch any errors here
-        .then(response => response.json())
-        .catch(err => reject(err))
+        .then((response) => response.json())
+        .catch((err) => reject(err))
         // Grab the data next, cach errors here as well
-        .then(data => {
+        .then((data) => {
           if (data) {
             localStorage.setItem('products', JSON.stringify(data));
             items = data;
             resolve();
           }
         })
-        .catch(err => reject(err));
+        .catch((err) => reject(err));
     }
   });
 }
@@ -62,7 +62,7 @@ function populatePage() {
   // Get all of the items currently in the cart from storage
   const inCart = storage.getItems();
   // Iterate over each of the items in the array
-  items.forEach(item => {
+  items.forEach((item) => {
     // Create <product-item> element and populate it with item data
     let productItem = document.createElement('product-item');
     productItem.data = item;
@@ -83,9 +83,13 @@ function populatePage() {
  */
 function bindCartUpdates() {
   const items = Array.from(document.querySelectorAll('product-item'));
-  items.forEach(item => {
-    item.addEventListener('addedToCart', () => { addToCart(item.json.id) });
-    item.addEventListener('removedFromCart', () => { removeFromCart(item.json.id) });
+  items.forEach((item) => {
+    item.addEventListener('addedToCart', () => {
+      addToCart(item.json.id);
+    });
+    item.addEventListener('removedFromCart', () => {
+      removeFromCart(item.json.id);
+    });
   });
 }
 
